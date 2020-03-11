@@ -2,6 +2,7 @@
 
 This is a fork of Greg's OpenCL tutorials to run on Ubuntu16.04 and Intel GPU.
 
+```
 To test if CL is already installed and working:
 clinfo
 	Numnber of processors: 0
@@ -87,3 +88,4 @@ GREGS OPENCL TUTORIALS
 #Greg's tutes are using OpenCL1.2 API, via the cl2.hpp emulation layer
 #this hpp given on ubuntu by the opencl-headers package
 
+```
