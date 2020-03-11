@@ -66,9 +66,7 @@ If compatible, find and install an OpenCL runtime for the particular card:
 SHORT VERSION FOR MY COMPUTER (Ubuntu 16.04, Intel HD series GPU):
 
 #install generic user end CL APIs
-sudo apt install ocl-icd-libopencl1
-sudo apt install opencl-headers
-sudo apt install clinfo
+sudo apt install ocl-icd-libopencl1 opencl-headers clinfo
 
 #install Intel HD Graphics series GPU specific implementation of CL
 add-apt-repository ppa:intel-opencl/intel-opencl
