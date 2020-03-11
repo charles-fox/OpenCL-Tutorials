@@ -4,7 +4,6 @@
 #include "Utils.h"
 #include "CImg.h"
 
-//sudo apt install cimg-dev
 
 using namespace cimg_library;
 
