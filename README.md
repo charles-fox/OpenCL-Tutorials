@@ -1,14 +1,89 @@
 # OpenCL Tutorials
 
-## Requirements
+This is a fork of Greg's OpenCL tutorials to run on Ubuntu16.04 and Intel GPU.
 
-The presented tutorials were developed and tested on Windows 10, Visual Studio 2019 and [Intel SDK for OpenCL](https://software.intel.com/en-us/intel-opencl) so that can be run on Windows PCs in the computing labs. Tutorial 4 also depends on the Boost library. If you would like to develop OpenCL programs on your computer you have two options:
- - replicate the [Windows setup](#windows-setup) from the computing labs;
- - use the [multi_os](https://github.com/gcielniak/OpenCL-Tutorials/tree/multi_os) branch, which should allow for running the tutorials on different operating systems, programming environments and OpenCL SDKs. There is limited documentation for this option, however, so you should only choose that option if you are comfortable with installing custom libraries on your specific OS.
- 
-## Windows Setup
- - OS + IDE: Windows 10, Visual Studio 2019
- - OpenCL SDK: the SDK enables you to develop and compile the OpenCL code. In our case, we use [Intel SDK for OpenCL Applications](https://software.intel.com/en-us/intel-opencl). You are not tied to that choice, however, and can use SDKs by NVidia or AMD - just remember to make modifications in the project include paths. Each SDK comes with a range of additional tools which make development of OpenCL programs easier.
- - OpenCL runtime: the runtime drivers are necessary to run the OpenCL code on your hardware. Both NVidia and AMD GPUs have OpenCL runtime included with their card drivers. For CPUs, you will need to install a dedicated driver by [Intel](https://software.intel.com/en-us/articles/opencl-drivers) or APP SDK for older AMD processors. It seems that AMD’s OpenCL support for newer CPU models was dropped unfortunately. You can check the existing OpenCL support on your PC using [GPU Caps Viewer](http://www.ozone3d.net/gpu_caps_viewer/).
- - Boost library: install the recent [Boost library Windows binaries](https://sourceforge.net/projects/boost/files/boost-binaries/) (e.g. [boost_1_72_0](https://sourceforge.net/projects/boost/files/boost-binaries/1.72.0/boost_1_72_0-msvc-14.2-64.exe/download) for VS2019). Then, add two environmental variables in the command line specifying the location of the include and lib Boost directories. For example, with boost_1_72_0 the commands would look as follows: `setx BOOST_INCLUDEDIR "C:\local\boost_1_72_0"` and `setx BOOST_LIBRARYDIR "C:\local\boost_1_72_0\lib64-msvc-14.2"`.
- - A useful reference if you are struggling to get going: [OpenCL on Windows](http://streamcomputing.eu/blog/2015-03-16/how-to-install-opencl-on-windows/).
+To test if CL is already installed and working:
+clinfo
+	Numnber of processors: 0
+
+To find graphics card/s make and model:
+lspci | grep VGA
+00:02.0 VGA compatible controller: Intel Corporation Device 591b (rev 04)
+
+sudo lshw -C display
+[sudo] password for charles: 
+  *-display UNCLAIMED     
+       description: Display controller
+       product: Advanced Micro Devices, Inc. [AMD/ATI]
+       vendor: Advanced Micro Devices, Inc. [AMD/ATI]
+       physical id: 0
+       bus info: pci@0000:01:00.0
+       version: c0
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pm pciexpress msi bus_master cap_list
+       configuration: latency=0
+       resources: memory:a0000000-afffffff memory:b0000000-b01fffff ioport:e000(size=256) memory:ec400000-ec43ffff memory:ec440000-ec45ffff
+  *-display
+       description: VGA compatible controller
+       product: Intel Corporation
+       vendor: Intel Corporation
+       physical id: 2
+       bus info: pci@0000:00:02.0
+       version: 04
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
+       configuration: driver=i915 latency=0
+       resources: iomemory:2f0-2ef irq:132 memory:eb000000-ebffffff memory:2fa0000000-2fafffffff ioport:f000(size=64) memory:c0000-dffff
+
+Then look up the card on the net for CL compatability and power:
+	Intel 591b part of the "HD Graphics 630" series. 
+	591b is the version for mobile laptops etc.
+	("HD Graphics 630" is part of "gen9" Intel GPUs)
+	https://en.wikipedia.org/wiki/List_of_Intel_graphics_processing_units
+		should run OpenCL 2.1 for Linux
+		clock 350-1000MHz
+		core config 192:24:3 (GT2)
+
+If compatible, find and install an OpenCL runtime for the particular card:
+
+	Intel OpenCL runtimes download:
+		https://software.intel.com/en-us/articles/opencl-drivers
+			"Intel® Graphics Technology Runtimes"  -- is for "HD Graphics series"
+			-- Linux OS
+		points to here to install:
+		https://github.com/intel/compute-runtime/blob/master/documentation/Neo_in_distributions.md
+
+	which says to do
+		add-apt-repository ppa:intel-opencl/intel-opencl
+		apt-get update
+		apt-get install intel-opencl-icd
+	then clinfo works.
+
+
+SHORT VERSION FOR MY COMPUTER (Ubuntu 16.04, Intel HD series GPU):
+
+#install generic user end CL APIs
+sudo apt install ocl-icd-libopencl1
+sudo apt install opencl-headers
+sudo apt install clinfo
+
+#install Intel HD Graphics series GPU specific implementation of CL
+add-apt-repository ppa:intel-opencl/intel-opencl
+apt-get update
+apt-get install intel-opencl-icd
+
+
+OPENCL VERSIONS
+   the single file CL/cl2.hpp contains bindings for ALL of the 1.0, 1.2 and 2.0 APIs
+   there are ways to specify which APIs will be used: 
+	https://github.khronos.org/OpenCL-CLHPP/
+   CL1.2 ref card:  https://www.khronos.org/files/opencl-1-2-quick-reference-card.pdf
+
+
+GREGS OPENCL TUTORIALS
+
+#Greg's tutes are using OpenCL1.2 API, via the cl2.hpp emulation layer
+#this hpp given on ubuntu by the opencl-headers package
+
