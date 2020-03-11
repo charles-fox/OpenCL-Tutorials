@@ -6,7 +6,7 @@ Parallel Programming OpenCL tutorials running on Ubuntu16.04, Intel GPU and make
 ## Install instuctions for Ubuntu 16.04 on Intel HD series GPU:
 
 ```
-#install generic user end CL APIs
+#install generic user-end OpenCL APIs
 sudo apt install ocl-icd-libopencl1 opencl-headers clinfo
 
 #install Intel HD Graphics series GPU specific implementation of CL
