@@ -1,11 +1,14 @@
+//g++ -std=c++0x tutorial1.cpp -o tutorial1 -lOpenCL
+#define CL_HPP_TARGET_OPENCL_VERSION 120
+#define CL_HPP_MINIMUM_OPENCL_VERSION 120
+#include <CL/cl2.hpp>
+#include "Utils.h"
+
 #include <iostream>
 #include <vector>
 
-#include "Utils.h"
-
 void print_help() {
 	std::cerr << "Application usage:" << std::endl;
-
 	std::cerr << "  -p : select platform " << std::endl;
 	std::cerr << "  -d : select device" << std::endl;
 	std::cerr << "  -l : list all platforms and devices" << std::endl;
@@ -29,29 +32,24 @@ int main(int argc, char **argv) {
 		//Part 2 - host operations
 		//2.1 Select computing devices
 		cl::Context context = GetContext(platform_id, device_id);
-
-		//display the selected device
 		std::cout << "Runinng on " << GetPlatformName(platform_id) << ", " << GetDeviceName(platform_id, device_id) << std::endl;
 
-		//create a queue to which we will push commands for the device
 		cl::CommandQueue queue(context);
 
-		//2.2 Load & build the device code
 		cl::Program::Sources sources;
-
 		AddSources(sources, "kernels/my_kernels.cl");
-
 		cl::Program program(context, sources);
 
 		//build and debug the kernel code
 		try {
 			program.build();
 		}
-		catch (const cl::Error& err) {
+		//catch (const cl::Error& err) {
+		catch (...) {
 			std::cout << "Build Status: " << program.getBuildInfo<CL_PROGRAM_BUILD_STATUS>(context.getInfo<CL_CONTEXT_DEVICES>()[0]) << std::endl;
 			std::cout << "Build Options:\t" << program.getBuildInfo<CL_PROGRAM_BUILD_OPTIONS>(context.getInfo<CL_CONTEXT_DEVICES>()[0]) << std::endl;
 			std::cout << "Build Log:\t " << program.getBuildInfo<CL_PROGRAM_BUILD_LOG>(context.getInfo<CL_CONTEXT_DEVICES>()[0]) << std::endl;
-			throw err;
+			//throw err;
 		}
 
 		//Part 3 - memory allocation
@@ -91,8 +89,9 @@ int main(int argc, char **argv) {
 		std::cout << "B = " << B << std::endl;
 		std::cout << "C = " << C << std::endl;
 	}
-	catch (cl::Error err) {
-		std::cerr << "ERROR: " << err.what() << ", " << getErrorString(err.err()) << std::endl;
+	//catch (cl::Error err) {
+	catch (...) {
+		//std::cerr << "ERROR: " << err.what() << ", " << getErrorString(err.err()) << std::endl;
 	}
 
 	return 0;

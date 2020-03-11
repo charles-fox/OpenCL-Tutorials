@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <boost/compute.hpp>
 
+//sudo apt install libcompute-dev
+
 namespace compute = boost::compute;
 using namespace std;
 
