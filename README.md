@@ -3,7 +3,7 @@
 Parallel Programming OpenCL tutorials running on Ubuntu16.04, Intel GPU and make. 
 
 
-## SHORT INSTALL INSTRUCTION FOR Ubuntu 16.04 on Intel HD series GPU:
+## Install instuctions for Ubuntu 16.04 on Intel HD series GPU:
 
 ```
 #install generic user end CL APIs
@@ -13,9 +13,13 @@ sudo apt install ocl-icd-libopencl1 opencl-headers clinfo
 add-apt-repository ppa:intel-opencl/intel-opencl
 apt-get update
 apt-get install intel-opencl-icd
+
+#install helper libraries used in these tutorials
+sudo apt install cimg-dev libcompute-dev
+
 ```
 
-## TO FIND OUT HOW TO DO A SIMILAR INSTALL FOR OTHER SIMILAR MACHINES:
+## Tips to find out how to do similar install on other systems:
 ```
 To test if CL is already installed and working:
 clinfo
@@ -77,20 +81,14 @@ If compatible, find and install an OpenCL runtime for the particular card:
 	then clinfo works.
 ```
 
-
-## ABOUT OPENCL VERSIONS
+## About OpenCL verions
 The single file CL/cl2.hpp contains bindings for ALL of the 1.0, 1.2 and 2.0 APIs
 There are ways to specify which APIs will be used:  https://github.khronos.org/OpenCL-CLHPP/
 CL1.2 ref card:  https://www.khronos.org/files/opencl-1-2-quick-reference-card.pdf
 
-
-## ABOUT THE TUTORIAL CODE
 The tutorial base codes use OpenCL1.2 API, via the cl2.hpp emulation layer.
 (This hpp is provided on ubuntu by the opencl-headers package.)
-tutes 2 and 4 need these libraries to be installed:
-```
-sudo apt install cimg-dev libcompute-dev
-```
 
+Tutes 2 and 4 need the CImg and Boost.compute libraries to be installed.
 
 ```
