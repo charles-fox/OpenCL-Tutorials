@@ -20,12 +20,14 @@ sudo apt install cimg-dev libcompute-dev
 ```
 
 ## Tips to find out how to do similar install on other systems:
-```
+
 To test if CL is already installed and working:
+```
 clinfo
 	Numnber of processors: 0
-
+```
 To find graphics card/s make and model:
+```
 lspci | grep VGA
 00:02.0 VGA compatible controller: Intel Corporation Device 591b (rev 04)
 
@@ -55,18 +57,19 @@ sudo lshw -C display
        capabilities: pciexpress msi pm vga_controller bus_master cap_list rom
        configuration: driver=i915 latency=0
        resources: iomemory:2f0-2ef irq:132 memory:eb000000-ebffffff memory:2fa0000000-2fafffffff ioport:f000(size=64) memory:c0000-dffff
-
+```
 Then look up the card on the net for CL compatability and power:
-	Intel 591b part of the "HD Graphics 630" series. 
+```
+Intel 591b part of the "HD Graphics 630" series. 
 	591b is the version for mobile laptops etc.
 	("HD Graphics 630" is part of "gen9" Intel GPUs)
 	https://en.wikipedia.org/wiki/List_of_Intel_graphics_processing_units
 		should run OpenCL 2.1 for Linux
 		clock 350-1000MHz
 		core config 192:24:3 (GT2)
-
+```
 If compatible, find and install an OpenCL runtime for the particular card:
-
+```
 	Intel OpenCL runtimes download:
 		https://software.intel.com/en-us/articles/opencl-drivers
 			"Intel® Graphics Technology Runtimes"  -- is for "HD Graphics series"
