@@ -81,7 +81,7 @@ If compatible, find and install an OpenCL runtime for the particular card:
 	then clinfo works.
 ```
 
-## About OpenCL verions
+### Tips on OpenCL versions and libraries
 The single file CL/cl2.hpp contains bindings for ALL of the 1.0, 1.2 and 2.0 APIs.
 
 There are ways to specify which APIs will be used:  https://github.khronos.org/OpenCL-CLHPP/
@@ -90,6 +90,6 @@ CL1.2 ref card:  https://www.khronos.org/files/opencl-1-2-quick-reference-card.p
 
 The tutorial base codes use OpenCL1.2 API, via the cl2.hpp emulation layer. (This hpp is provided on ubuntu by the opencl-headers package.)
 
-Tutes 2 and 4 need the CImg and Boost.compute libraries to be installed.
+Tutorials 2 and 4 need the CImg and Boost.compute libraries to be installed.
 
 ```
