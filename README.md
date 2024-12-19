@@ -1,20 +1,29 @@
 # OpenCL Tutorials
 
-Parallel Programming OpenCL tutorials running on Ubuntu16.04, Intel GPU and make. 
+Parallel Programming OpenCL tutorials running on Ubuntu 20.04 / NVidia / make
 
 
-## Install instuctions for Ubuntu 16.04 on Intel HD series GPU:
+## Setup
 
 ```
 #install generic user-end OpenCL APIs
 sudo apt install ocl-icd-libopencl1 opencl-headers clinfo
 
-#install Intel HD Graphics series GPU specific implementation of CL
-add-apt-repository ppa:intel-opencl/intel-opencl
-apt-get update
-apt-get install intel-opencl-icd
 
-#install helper libraries used in these tutorials
+
+
+#find and set NVidia OpenCL implementation path (may vary on your system)
+locate libOpenCL.so
+export LD_LIBRARY_PATH=/usr/local/cuda-11.8/targets/x86_64-linux/lib/
+
+#run tutorial1
+git clone https://github.com/charles-fox/OpenCL-Tutorials.git
+cd tutorial1
+make
+./tutorial1
+
+
+#install helper libraries used in tutorials 2 and 4
 sudo apt install cimg-dev libcompute-dev
 
 ```
