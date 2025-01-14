@@ -1,7 +1,7 @@
 //g++ -std=c++0x tutorial1.cpp -o tutorial1 -lOpenCL
 #define CL_HPP_TARGET_OPENCL_VERSION 120
 #define CL_HPP_MINIMUM_OPENCL_VERSION 120
-#include <CL/cl2.hpp>
+#include <CL/opencl.hpp>
 #include "Utils.h"
 
 #include <iostream>
