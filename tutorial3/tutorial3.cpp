@@ -13,7 +13,7 @@ void print_help() {
 }
 
 int main(int argc, char **argv) {
-	//Part 1 - handle command line options such as device selection, verbosity, etc.
+	//------- handle command line options such as device selection, verbosity, etc.
 	int platform_id = 0;
 	int device_id = 0;
 
@@ -26,8 +26,8 @@ int main(int argc, char **argv) {
 
 	//detect any potential exceptions
 	try {
-		//Part 2 - host operations
-		//2.1 Select computing devices
+		//------ host operations
+		//Select computing devices
 		cl::Context context = GetContext(platform_id, device_id);
 
 		//display the selected device
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 		//create a queue to which we will push commands for the device
 		cl::CommandQueue queue(context);
 
-		//2.2 Load & build the device code
+		//Load & build the device code
 		cl::Program::Sources sources;
 
 		AddSources(sources, "kernels/my_kernels.cl");
@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 
 		typedef int mytype;
 
-		//Part 3 - memory allocation
+		//----------- memory allocation
 		//host - input
 		std::vector<mytype> A(10, 1);//allocate 10 elements with an initial value 1 - their sum is 10 so it should be easy to check the results!
 
@@ -88,13 +88,13 @@ int main(int argc, char **argv) {
 		cl::Buffer buffer_A(context, CL_MEM_READ_ONLY, input_size);
 		cl::Buffer buffer_B(context, CL_MEM_READ_WRITE, output_size);
 
-		//Part 4 - device operations
+		//------------ device operations
 
-		//4.1 copy array A to and initialise other arrays on device memory
+		//copy array A to and initialise other arrays on device memory
 		queue.enqueueWriteBuffer(buffer_A, CL_TRUE, 0, input_size, &A[0]);
 		queue.enqueueFillBuffer(buffer_B, 0, 0, output_size);//zero B buffer on device memory
 
-		//4.2 Setup and execute all kernels (i.e. device code)
+		//Setup and execute all kernels (i.e. device code)
 		cl::Kernel kernel_1 = cl::Kernel(program, "reduce_add_1");
 		kernel_1.setArg(0, buffer_A);
 		kernel_1.setArg(1, buffer_B);
@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
 		//call all kernels in a sequence
 		queue.enqueueNDRangeKernel(kernel_1, cl::NullRange, cl::NDRange(input_elements), cl::NDRange(local_size));
 
-		//4.3 Copy the result from device to host
+		//Copy the result from device to host
 		queue.enqueueReadBuffer(buffer_B, CL_TRUE, 0, output_size, &B[0]);
 
 		std::cout << "A = " << A << std::endl;

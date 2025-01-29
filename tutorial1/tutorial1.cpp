@@ -16,7 +16,7 @@ void print_help() {
 }
 
 int main(int argc, char **argv) {
-	//Part 1 - handle command line options such as device selection, verbosity, etc.
+	//----- handle command line options such as device selection, verbosity, etc.
 	int platform_id = 0;
 	int device_id = 0;
 
@@ -29,8 +29,8 @@ int main(int argc, char **argv) {
 
 	//detect any potential exceptions
 	try {
-		//Part 2 - host operations
-		//2.1 Select computing devices
+		//-------host operations
+		//Select computing devices
 		cl::Context context = GetContext(platform_id, device_id);
 		std::cout << "Runinng on " << GetPlatformName(platform_id) << ", " << GetDeviceName(platform_id, device_id) << std::endl;
 
@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 			//throw err;
 		}
 
-		//Part 3 - memory allocation
+		//---------- memory allocation
 		//host - input
 		std::vector<int> A = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }; //C++11 allows this type of initialisation
 		std::vector<int> B = { 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 };
@@ -68,13 +68,13 @@ int main(int argc, char **argv) {
 		cl::Buffer buffer_B(context, CL_MEM_READ_WRITE, vector_size);
 		cl::Buffer buffer_C(context, CL_MEM_READ_WRITE, vector_size);
 
-		//Part 4 - device operations
+		//---------- device operations
 
-		//4.1 Copy arrays A and B to device memory
+		//Copy arrays A and B to device memory
 		queue.enqueueWriteBuffer(buffer_A, CL_TRUE, 0, vector_size, &A[0]);
 		queue.enqueueWriteBuffer(buffer_B, CL_TRUE, 0, vector_size, &B[0]);
 
-		//4.2 Setup and execute the kernel (i.e. device code)
+		//Setup and execute the kernel (i.e. device code)
 		cl::Kernel kernel_add = cl::Kernel(program, "add");
 		kernel_add.setArg(0, buffer_A);
 		kernel_add.setArg(1, buffer_B);
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 
 		queue.enqueueNDRangeKernel(kernel_add, cl::NullRange, cl::NDRange(vector_elements), cl::NullRange);
 
-		//4.3 Copy the result from device to host
+		//Copy the result from device to host
 		queue.enqueueReadBuffer(buffer_C, CL_TRUE, 0, vector_size, &C[0]);
 
 		std::cout << "A = " << A << std::endl;
