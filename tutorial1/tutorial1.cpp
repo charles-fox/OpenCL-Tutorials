@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 	for (int i = 1; i < argc; i++)	{
 		if ((strcmp(argv[i], "-p") == 0) && (i < (argc - 1))) { platform_id = atoi(argv[++i]); }
 		else if ((strcmp(argv[i], "-d") == 0) && (i < (argc - 1))) { device_id = atoi(argv[++i]); }
-		else if (strcmp(argv[i], "-l") == 0) { std::cout << ListPlatformsDevices() << std::endl; }
+		else if (strcmp(argv[i], "-l") == 0) { std::cout << ListPlatformsDevices() << std::endl; return 0; }
 		else if (strcmp(argv[i], "-h") == 0) { print_help(); return 0; }
 	}
 
